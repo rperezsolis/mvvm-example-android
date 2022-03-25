@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MVVM Example</string>
+
+    <string name="text_picture_poster">Picture poster</string>
 </resources>
