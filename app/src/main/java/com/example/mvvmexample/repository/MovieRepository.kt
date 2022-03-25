@@ -2,20 +2,18 @@ package com.example.mvvmexample.repository
 
 import com.example.mvvmexample.model.Movie
 import com.example.mvvmexample.model.MovieResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import kotlin.coroutines.resume
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
-class MovieRepository(
-    val moviesListener: (property: KProperty<*>, oldValue: List<Movie>, newValue: List<Movie>) -> Unit
-) {
+class MovieRepository() {
     object MovieAPI {
         const val apiKey = "7e6a9a3be4a61e50096bada46314ae9b"
         const val apiReadAccessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3ZTZhOWEzYmU0YTYxZTUwMDk2Ym" +
@@ -30,15 +28,12 @@ class MovieRepository(
 
     private val movieServiceImpl: MovieService = retrofit.create(MovieService::class.java)
 
-    var movies: List<Movie> by Delegates
-        .observable(initialValue = mutableListOf()) { property, oldValue, newValue ->
-            moviesListener.invoke(property, oldValue, newValue)
-    }
-
-    suspend fun getMovies() {
-        withContext(Dispatchers.Default) {
-            movies = movieServiceImpl
-                .getMoviesAsync(apiKey = MovieAPI.apiKey).await().results
+    suspend fun getMovies() = suspendCancellableCoroutine<List<Movie>> { continuation ->
+        CoroutineScope(Dispatchers.Default).launch {
+            val movieResponse: MovieResponse = movieServiceImpl.getMoviesAsync(
+                apiKey = MovieAPI.apiKey
+            ).await()
+            continuation.resume(movieResponse.results)
         }
     }
 }
