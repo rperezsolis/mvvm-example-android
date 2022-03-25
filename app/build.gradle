@@ -65,6 +65,18 @@ dependencies {
     //Paging
     implementation "androidx.paging:paging-runtime:3.1.1"
 
+    //Dependency Injection
+    // Koin main features for Android
+    implementation "io.insert-koin:koin-android:3.2.0-beta-1"
+    // Java Compatibility
+    implementation "io.insert-koin:koin-android-compat:3.2.0-beta-1"
+    // Jetpack WorkManager
+    implementation "io.insert-koin:koin-androidx-workmanager:3.2.0-beta-1"
+    // Navigation Graph
+    implementation "io.insert-koin:koin-androidx-navigation:3.2.0-beta-1"
+    // Jetpack Compose
+    implementation "io.insert-koin:koin-androidx-compose:3.2.0-beta-1"
+
     //Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

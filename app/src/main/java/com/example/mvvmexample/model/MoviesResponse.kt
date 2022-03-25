@@ -2,7 +2,7 @@ package com.example.mvvmexample.model
 
 import com.squareup.moshi.Json
 
-data class MovieResponse(
+data class MoviesResponse(
     @field:Json(name = "page")
     val page: Int,
     @field:Json(name = "total_results")

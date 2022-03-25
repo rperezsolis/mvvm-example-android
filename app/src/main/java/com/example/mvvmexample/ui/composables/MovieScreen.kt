@@ -6,16 +6,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import com.example.mvvmexample.model.Movie
-import com.example.mvvmexample.viewmodel.MovieViewModel
+import com.example.mvvmexample.viewmodel.MoviesViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun MoviesScreen(
-    movieViewModel: MovieViewModel
+    modifier: Modifier = Modifier
 ) {
+    //We use the getViewModel function to get the instance of our MoviesViewModel dependency
+    val movieViewModel: MoviesViewModel = getViewModel()
     val movieList: List<Movie> by movieViewModel.movies.collectAsState()
 
-    LazyColumn {
+    LazyColumn(
+        modifier = modifier
+    ) {
         items(movieList) { movie ->
             Text(text = movie.title)
         }

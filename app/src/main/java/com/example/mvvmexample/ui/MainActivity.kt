@@ -7,17 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelProvider
 import com.example.mvvmexample.ui.composables.MoviesScreen
 import com.example.mvvmexample.ui.theme.MVVMExampleTheme
-import com.example.mvvmexample.viewmodel.MovieViewModel
+import com.example.mvvmexample.viewmodel.MoviesViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+    //We inject the MoviesViewModel by using the koin's viewModel() function
+    private val moviesViewModel: MoviesViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val movieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
-        movieViewModel.getMovies()
+        moviesViewModel.getMovies()
 
         setContent {
             MVVMExampleTheme {
@@ -26,9 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MoviesScreen(
-                        movieViewModel = movieViewModel
-                    )
+                    MoviesScreen()
                 }
             }
         }
