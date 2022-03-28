@@ -32,7 +32,7 @@ fun MovieItem(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(all = 16.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -40,7 +40,6 @@ fun MovieItem(
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.text_picture_poster),
-                contentScale = ContentScale.Crop,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
