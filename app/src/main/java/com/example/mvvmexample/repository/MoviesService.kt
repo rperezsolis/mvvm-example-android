@@ -7,5 +7,8 @@ import retrofit2.http.Query
 
 interface MoviesService {
     @GET("movie/popular")
-    fun getMoviesAsync(@Query("api_key") apiKey: String): Call<MoviesResponse>
+    fun getMoviesAsync(
+        @Query("api_key") apiKey: String,
+        @Query("page") page: Int
+    ): Call<MoviesResponse>
 }

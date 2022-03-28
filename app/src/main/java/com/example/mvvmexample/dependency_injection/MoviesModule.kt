@@ -7,10 +7,10 @@ import org.koin.dsl.module
 val moviesModule = module {
     single {
         //We use the get() function to get a Koin instance that provides the MoviesService dependency
-        MoviesRepository(moviesServiceImpl = get())
+        MoviesRepository(_moviesServiceImpl = get())
     }
     single {
         //We use the get() function to get a Koin instance that provides the MoviesRepository dependency
-        MoviesViewModel(moviesRepository = get())
+        MoviesViewModel(_moviesRepository = get())
     }
 }
