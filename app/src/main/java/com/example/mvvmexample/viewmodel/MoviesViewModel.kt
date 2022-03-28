@@ -21,7 +21,13 @@ class MoviesViewModel(
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing
 
-    val currentMoviesException = MutableStateFlow<Exception?>(null)
+    private val _currentMoviesException = MutableStateFlow<Exception?>(null)
+    val currentMoviesException: StateFlow<Exception?>
+        get() = _currentMoviesException
+
+    private val _currentMovie = MutableStateFlow<Movie?>(null)
+    val currentMovie: StateFlow<Movie?>
+        get() = _currentMovie
 
     fun getMovies(refreshing: Boolean = false) {
         viewModelScope.launch {
@@ -37,7 +43,7 @@ class MoviesViewModel(
                     _page++
                 }
             } catch (exception: Exception) {
-                currentMoviesException.value = exception
+                setCurrentMoviesException(exception)
             }
             _isRefreshing.value = false
         }
@@ -46,5 +52,13 @@ class MoviesViewModel(
     fun refreshMovies() {
         _page = 1
         getMovies(refreshing = true)
+    }
+
+    fun setCurrentMoviesException(exception: Exception?) {
+        _currentMoviesException.value = exception
+    }
+
+    fun setCurrentMovie(movie: Movie) {
+        _currentMovie.value = movie
     }
 }

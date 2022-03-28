@@ -7,6 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.mvvmexample.ui.composables.MovieDetailsRoute
+import com.example.mvvmexample.ui.composables.MovieDetailsScreen
+import com.example.mvvmexample.ui.composables.MoviesRoute
 import com.example.mvvmexample.ui.composables.MoviesScreen
 import com.example.mvvmexample.ui.theme.MVVMExampleTheme
 import com.example.mvvmexample.viewmodel.MoviesViewModel
@@ -28,7 +34,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MoviesScreen()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = MoviesRoute.name) {
+                        composable(MoviesRoute.name) {
+                            MoviesScreen(
+                                navController = navController
+                            )
+                        }
+                        composable(MovieDetailsRoute.name) {
+                            MovieDetailsScreen(
+                                navController = navController
+                            )
+                        }
+                    }
                 }
             }
         }

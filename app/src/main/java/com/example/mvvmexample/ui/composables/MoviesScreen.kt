@@ -7,14 +7,10 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mvvmexample.extensions.shouldLoadMore
 import com.example.mvvmexample.model.Movie
 import com.example.mvvmexample.viewmodel.MoviesViewModel
@@ -25,6 +21,7 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoviesScreen(
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     //We use the getViewModel function to get the instance of our MoviesViewModel dependency
@@ -38,17 +35,9 @@ fun MoviesScreen(
     }
 
     Column {
-        TopAppBar(
-            backgroundColor = Color.White,
-        ) {
-            Text(
-                text = "Android MVVM Example",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.DarkGray,
-                modifier = Modifier.padding(start = 8.dp),
-            )
-        }
+        AppTopAppBar(
+            title = "Movies"
+        )
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
             onRefresh = {
@@ -63,6 +52,7 @@ fun MoviesScreen(
                 items(movieList) { movie ->
                     MovieItem(
                         movie = movie,
+                        navController,
                         modifier = Modifier.padding(all = 12.dp)
                     )
                 }
@@ -70,7 +60,7 @@ fun MoviesScreen(
         }
         if (currentMoviesException != null) {
             ErrorModal(exception = currentMoviesException!!) {
-                moviesViewModel.currentMoviesException.value = null
+                moviesViewModel.setCurrentMoviesException(null)
             }
         }
     }
@@ -78,4 +68,8 @@ fun MoviesScreen(
     if (lazyListState.shouldLoadMore(firstVisibleIndex)) {
         moviesViewModel.getMovies()
     }
+}
+
+object MoviesRoute {
+    const val name = "Movies"
 }

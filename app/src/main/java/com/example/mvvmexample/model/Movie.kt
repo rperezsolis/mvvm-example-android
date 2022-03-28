@@ -13,4 +13,8 @@ data class Movie(
     val overview: String,
     @field:Json(name = "release_date")
     val releaseDate: String
-)
+) {
+    companion object Constants {
+        const val posterUrlPrefix = "https://image.tmdb.org/t/p/w185"
+    }
+}
